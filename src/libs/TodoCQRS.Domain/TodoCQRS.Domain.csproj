@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TodoCQRS.Commands.Domain\TodoCQRS.Commands.Domain.csproj" />
+    <ProjectReference Include="..\TodoCQRS.Infrastructture.Persistance\TodoCQRS.Infrastructture.Persistance.csproj" />
+    <ProjectReference Include="..\TodoCQRS.Infrastructure\TodoCQRS.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

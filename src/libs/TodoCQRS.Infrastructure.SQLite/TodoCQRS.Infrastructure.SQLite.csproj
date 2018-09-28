@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Dapper.Contrib" Version="1.50.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TodoCQRS.Domain\TodoCQRS.Domain.csproj" />
+    <ProjectReference Include="..\TodoCQRS.Infrastructure\TodoCQRS.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

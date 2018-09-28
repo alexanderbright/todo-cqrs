@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="4.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TodoCQRS.Domain\TodoCQRS.Domain.csproj" />
+    <ProjectReference Include="..\TodoCQRS.Infrastructure.LiteDb\TodoCQRS.Infrastructure.LiteDb.csproj" />
+    <ProjectReference Include="..\TodoCQRS.Infrastructure\TodoCQRS.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
