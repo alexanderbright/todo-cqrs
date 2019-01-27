@@ -5,7 +5,7 @@ var configuration = Argument("configuration", "Release");
 
 Task("Default")
     .Does(() => {
-        Informatio("Completed")
+        Information("Completed");
     });
 
 RunTarget(target);
