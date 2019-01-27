@@ -6,3 +6,4 @@ packages
 node_modules
 tools/*
 !tools/packages.config
+.vscode
