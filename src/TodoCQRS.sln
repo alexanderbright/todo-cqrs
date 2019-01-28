@@ -21,11 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoCQRS.Commands.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoCQRS.Infrastructure.LiteDb", "libs\TodoCQRS.Infrastructure.LiteDb\TodoCQRS.Infrastructure.LiteDb.csproj", "{E6B6D1EE-E8C3-4B7E-A429-543C0D24F1E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoCQRS.Infrastructure.SQLite", "libs\TodoCQRS.Infrastructure.SQLite\TodoCQRS.Infrastructure.SQLite.csproj", "{8D1848BA-537D-424E-A685-FC8D522E650A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoCQRS.Infrastructure.MsSql", "libs\TodoCQRS.Infrastructure.MsSql\TodoCQRS.Infrastructure.MsSql.csproj", "{93B9F9AD-FE58-43F6-AAFA-E4006716BCC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoCQRS.Infrastructure.MsSql", "libs\TodoCQRS.Infrastructure.MsSql\TodoCQRS.Infrastructure.MsSql.csproj", "{93B9F9AD-FE58-43F6-AAFA-E4006716BCC1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoCQRS.Infrastructture.Persistance", "libs\TodoCQRS.Infrastructture.Persistance\TodoCQRS.Infrastructture.Persistance.csproj", "{2B082DF5-D8B8-4158-A58A-79DADD4E097C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoCQRS.Infrastructture.Persistance", "libs\TodoCQRS.Infrastructture.Persistance\TodoCQRS.Infrastructture.Persistance.csproj", "{2B082DF5-D8B8-4158-A58A-79DADD4E097C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{E6B6D1EE-E8C3-4B7E-A429-543C0D24F1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6B6D1EE-E8C3-4B7E-A429-543C0D24F1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6B6D1EE-E8C3-4B7E-A429-543C0D24F1E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D1848BA-537D-424E-A685-FC8D522E650A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D1848BA-537D-424E-A685-FC8D522E650A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D1848BA-537D-424E-A685-FC8D522E650A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D1848BA-537D-424E-A685-FC8D522E650A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93B9F9AD-FE58-43F6-AAFA-E4006716BCC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93B9F9AD-FE58-43F6-AAFA-E4006716BCC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B9F9AD-FE58-43F6-AAFA-E4006716BCC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,7 +79,6 @@ Global
 		{4E14BA4A-8862-4E32-85AE-882F648A4E77} = {A9B7D8CA-F0B7-422A-96BE-E9E43958BE39}
 		{02185602-962A-42D6-A50D-AC3A52BC6AEE} = {A9B7D8CA-F0B7-422A-96BE-E9E43958BE39}
 		{E6B6D1EE-E8C3-4B7E-A429-543C0D24F1E7} = {A9B7D8CA-F0B7-422A-96BE-E9E43958BE39}
-		{8D1848BA-537D-424E-A685-FC8D522E650A} = {A9B7D8CA-F0B7-422A-96BE-E9E43958BE39}
 		{93B9F9AD-FE58-43F6-AAFA-E4006716BCC1} = {A9B7D8CA-F0B7-422A-96BE-E9E43958BE39}
 		{2B082DF5-D8B8-4158-A58A-79DADD4E097C} = {A9B7D8CA-F0B7-422A-96BE-E9E43958BE39}
 	EndGlobalSection
