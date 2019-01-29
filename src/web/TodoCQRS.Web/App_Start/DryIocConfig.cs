@@ -34,7 +34,7 @@ namespace TodoCQRS.Web
       registrator.RegisterDelegate<IDependencyService>(s => new DryIocDependencyService(s));
       registrator.Register<IStorageSchemeMigrator, StorageSchemeMigrator>();
 
-      registrator.RegisterDelegate<ISqlConnectionProvider>(s => new MsSqlConnectionProvider(@"Data Source=localhost\sqlexpress;Database=TodoCQRS;Integrated Security=true"));
+      registrator.RegisterDelegate<ISqlConnectionProvider>(s => new MsSqlConnectionProvider(@"Data Source=localhost\sqlexpress;Database=TodoCQRS;user id=todo-cqrs;password=123456"));
 
       registrator.Register<CommandHandlers>();
       registrator.Register<DenormalizerHandlers>();
