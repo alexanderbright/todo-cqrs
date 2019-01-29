@@ -1,10 +1,12 @@
-
+#tool "xunit.runner.console"
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
-var distDirectory = MakeAbsolute(Directory("./dist"));
+var distDirectory = MakeAbsolute(Directory("./artifacts"));
 var solution = MakeAbsolute(Directory("./src"));
 var webProject = solution.Combine("web/TodoCQRS.Web/TodoCQRS.Web.csproj");
+var pack = MakeAbsolute(Directory("./pack"));
+var version = "1.0.0";
 
 Task("BuildAndTest")
     .IsDependentOn("Clean")
@@ -16,11 +18,18 @@ Task("BuildAndTest")
 // to run everything starting from Clean, all the way up to Publish.
 Task("Default")
     .IsDependentOn("BuildAndTest")
-    .IsDependentOn("PublishWeb");
+    .IsDependentOn("PublishWeb")
+    .IsDependentOn("Package");
+
+Setup(context => {
+    version = XmlPeek(webProject.FullPath, "/Project/PropertyGroup/Version/text()");
+    Information($"Version detected {version}");
+});
 
 Task("Clean")
 .Does(() => {
         CleanDirectory(distDirectory);
+        CleanDirectory(pack);
     });
 
 Task("Restore")
@@ -41,19 +50,11 @@ Task("Build")
 Task("Test")
     .Does(() =>
     {
-        var projects = GetFiles("./test/**/*.csproj");
-        foreach(var project in projects)
-        {
-            Information("Testing project " + project);
-            DotNetCoreTest(
-                project.ToString(),
-                new DotNetCoreTestSettings()
-                {
-                    Configuration = configuration,
-                    NoBuild = true,
-                    ArgumentCustomization = args => args.Append("--no-restore"),
-                });
-        }
+        XUnit2("./test/**/*.dll",
+            new XUnit2Settings()
+            {
+                HtmlReport = true,                    
+            });
     });
 
 Task("PublishWeb")
@@ -66,6 +67,12 @@ Task("PublishWeb")
                 OutputDirectory = distDirectory,
                 ArgumentCustomization = args => args.Append("--no-restore"),
             });
+    });
+
+Task("Package")
+    .IsDependentOn("Build")
+    .Does(() => {
+        Zip(distDirectory, distDirectory.CombineWithFilePath($"publish.{version}.zip"));
     });
 
 RunTarget(target);
