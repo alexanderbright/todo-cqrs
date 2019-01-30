@@ -83,7 +83,6 @@ Task("CreateNuget")
     .WithCriteria(Jenkins.IsRunningOnJenkins)
     .Does(() => {
 
-
     var nugetPath = solution.Combine("/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj");
     var versionOld = new Version(XmlPeek(nugetPath.FullPath, "/Project/PropertyGroup/Version/text()"));
     var version = new Version(versionOld.Major, versionOld.Minor, Jenkins.Environment.Build.BuildNumber);
