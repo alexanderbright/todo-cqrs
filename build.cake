@@ -6,7 +6,7 @@ var distDirectory = MakeAbsolute(Directory("./artifacts"));
 var publishDirectory = distDirectory.Combine("publish");
 var solution = MakeAbsolute(Directory("./src"));
 var webProject = solution.Combine("web/TodoCQRS.Web/TodoCQRS.Web.csproj");
-var version = "1.0.0";
+var webVersion = "1.0.0";
 
 Task("BuildAndTest")
     .IsDependentOn("Clean")
@@ -23,8 +23,8 @@ Task("Default")
     .IsDependentOn("CreateNuget");
 
 Setup(context => {
-    version = XmlPeek(webProject.FullPath, "/Project/PropertyGroup/Version/text()");
-    Information($"Version detected {version}");
+    webVersion = XmlPeek(webProject.FullPath, "/Project/PropertyGroup/Version/text()");
+    Information($"Version detected {webVersion}");
 });
 
 Task("Clean")
@@ -80,18 +80,24 @@ Task("Package")
 
 Task("CreateNuget")
     .IsDependentOn("Build")
-    //.WithCriteria(Jenkins.IsRunningOnJenkins)
+    .WithCriteria(Jenkins.IsRunningOnJenkins)
     .Does(() => {
-      var nuGetPackSettings = new NuGetPackSettings
-	    {
-	    	OutputDirectory = distDirectory,
-	    	IncludeReferencedProjects = true,
-	    	Properties = new Dictionary<string, string>
-	    	{
-	    		{ "Configuration", "Release" }
-	    	}
-	    };
 
+
+    var nugetPath = solution.Combine("/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj");
+    var versionOld = new Version(XmlPeek(nugetPath.FullPath, "/Project/PropertyGroup/Version/text()"));
+    var version = new Version(versionOld.Major, versionOld.Minor, Jenkins.Environment.Build.BuildNumber);
+
+    var nuGetPackSettings = new NuGetPackSettings
+    {
+    	OutputDirectory = distDirectory
+    	, IncludeReferencedProjects = true
+    	, Properties = new Dictionary<string, string>
+    	{
+    		{ "Configuration", "Release" }
+    	}
+        , Version = version.ToString()
+    };
     NuGetPack("./src/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj", nuGetPackSettings);
 });
 
