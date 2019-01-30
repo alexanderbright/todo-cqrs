@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>TodoCQRS.Infrastructture.Persistance</id>
+    <version>$version$</version>
+    <title>TodoCQRS.Infrastructture.Persistance</title>
+    <authors>Alexander Beloborodov</authors>
+    <owners>Code Inside Team</owners>
+    <licenseUrl>https://github.com/alexanderbright/todo-cqrs</licenseUrl>
+    <projectUrl>https://github.com/alexanderbright/todo-cqrs</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Demo nuget package</description>
+    <releaseNotes>
+      ## Version 0.1 ##
+      Init
+    </releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Demo,nuget</tags>
+    <dependencies />
+  </metadata>
+</package>

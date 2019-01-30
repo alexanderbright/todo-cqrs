@@ -3,9 +3,9 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
 var distDirectory = MakeAbsolute(Directory("./artifacts"));
+var publishDirectory = distDirectory.Combine("publish");
 var solution = MakeAbsolute(Directory("./src"));
 var webProject = solution.Combine("web/TodoCQRS.Web/TodoCQRS.Web.csproj");
-var pack = MakeAbsolute(Directory("./pack"));
 var version = "1.0.0";
 
 Task("BuildAndTest")
@@ -19,7 +19,8 @@ Task("BuildAndTest")
 Task("Default")
     .IsDependentOn("BuildAndTest")
     .IsDependentOn("PublishWeb")
-    .IsDependentOn("Package");
+    .IsDependentOn("Package")
+    .IsDependentOn("CreateNuget");
 
 Setup(context => {
     version = XmlPeek(webProject.FullPath, "/Project/PropertyGroup/Version/text()");
@@ -29,7 +30,6 @@ Setup(context => {
 Task("Clean")
 .Does(() => {
         CleanDirectory(distDirectory);
-        CleanDirectory(pack);
     });
 
 Task("Restore")
@@ -42,8 +42,9 @@ Task("Build")
         DotNetCoreBuild(solution.FullPath,
             new DotNetCoreBuildSettings()
             {
-                Configuration = configuration,
-                ArgumentCustomization = args => args.Append("--no-restore"),
+                Verbosity = DotNetCoreVerbosity.Minimal
+                , Configuration = configuration
+                , ArgumentCustomization = args => args.Append("--no-restore"),
             });
     });
 
@@ -53,7 +54,8 @@ Task("Test")
         XUnit2("./test/**/*.dll",
             new XUnit2Settings()
             {
-                HtmlReport = true,                    
+              OutputDirectory = publishDirectory.FullPath
+              ,  HtmlReport = true
             });
     });
 
@@ -64,7 +66,7 @@ Task("PublishWeb")
             new DotNetCorePublishSettings()
             {
                 Configuration = configuration,
-                OutputDirectory = distDirectory,
+                OutputDirectory = publishDirectory,
                 ArgumentCustomization = args => args.Append("--no-restore"),
             });
     });
@@ -72,7 +74,25 @@ Task("PublishWeb")
 Task("Package")
     .IsDependentOn("Build")
     .Does(() => {
-        Zip(distDirectory, distDirectory.CombineWithFilePath($"publish.{version}.zip"));
+        Zip(publishDirectory, distDirectory.CombineWithFilePath($"publish.{version}.zip"));
     });
+
+
+Task("CreateNuget")
+    .IsDependentOn("Build")
+    //.WithCriteria(Jenkins.IsRunningOnJenkins)
+    .Does(() => {
+      var nuGetPackSettings = new NuGetPackSettings
+	    {
+	    	OutputDirectory = distDirectory,
+	    	IncludeReferencedProjects = true,
+	    	Properties = new Dictionary<string, string>
+	    	{
+	    		{ "Configuration", "Release" }
+	    	}
+	    };
+
+    NuGetPack("./src/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj", nuGetPackSettings);
+});
 
 RunTarget(target);
