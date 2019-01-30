@@ -74,7 +74,7 @@ Task("PublishWeb")
 Task("Package")
     .IsDependentOn("Build")
     .Does(() => {
-        Zip(publishDirectory, distDirectory.CombineWithFilePath($"publish.{version}.zip"));
+        Zip(publishDirectory, distDirectory.CombineWithFilePath($"publish.{webVersion}.zip"));
     });
 
 
