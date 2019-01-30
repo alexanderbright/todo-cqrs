@@ -83,7 +83,7 @@ Task("CreateNuget")
     .WithCriteria(Jenkins.IsRunningOnJenkins)
     .Does(() => {
 
-    var nugetPath = solution.Combine("/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj");
+    var nugetPath = solution.CombineWithFilePath("/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj");
     var versionOld = new Version(XmlPeek(nugetPath.FullPath, "/Project/PropertyGroup/Version/text()"));
     var version = new Version(versionOld.Major, versionOld.Minor, Jenkins.Environment.Build.BuildNumber);
 
@@ -97,7 +97,7 @@ Task("CreateNuget")
     	}
         , Version = version.ToString()
     };
-    NuGetPack("./src/libs/TodoCQRS.Infrastructture.Persistance/TodoCQRS.Infrastructture.Persistance.csproj", nuGetPackSettings);
+    NuGetPack(nugetPath, nuGetPackSettings);
 });
 
 RunTarget(target);
