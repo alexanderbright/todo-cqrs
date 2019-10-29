@@ -29,8 +29,8 @@ namespace TodoCQRS.Web
     // This method gets called by the runtime. Use this method to add services to the container.
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-      services.AddSignalR();
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+      services.AddSignalR().AddNewtonsoftJsonProtocol();
+      services.AddMvc(option => option.EnableEndpointRouting = false).AddNewtonsoftJson();
 
       return new Container(rules => rules.WithoutThrowIfDependencyHasShorterReuseLifespan())
         // optional: support for MEF service discovery
