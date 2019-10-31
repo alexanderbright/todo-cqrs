@@ -117,16 +117,16 @@
       },
       methods: {
         loadLists: function() {
-          axios.get('https://localhost:44375/api/todolist/all')
+          axios.get('/api/todolist/all')
             .then((response) => this.vm.todoLists = response.data);
         },
         loadItems: function() {
-          axios.get('https://localhost:44375/api/todoitem/all')
+          axios.get('/api/todoitem/all')
             .then((response) => this.vm.todoItems = response.data);
         },
         createList: function() {
           var dto = { name: this.vm.listToAdd.name };
-          axios.post('https://localhost:44375/api/todolist/create', dto)
+          axios.post('/api/todolist/create', dto)
             .then((response) => { });
         },
         addItem: function() {
@@ -135,7 +135,7 @@
             text: this.vm.itemToAdd.text,
             isCompleted: this.vm.itemToAdd.isCompleted
           };
-          axios.post('https://localhost:44375/api/todoitem/create', dto)
+          axios.post('/api/todoitem/create', dto)
             .then((response) => { });
         },
         toggleItemStatus: function(item) {
@@ -145,7 +145,7 @@
             itemId: item.itemId,
             isCompleted: newStatus
           };
-          axios.post('https://localhost:44375/api/todoitem/changeStatus', dto)
+          axios.post('/api/todoitem/changeStatus', dto)
             .then((response) => { });
         },
         throttledChangeItemText: _.throttle(function(item) { this.changeItemText(item) }, 3000),
@@ -155,7 +155,7 @@
             itemId: item.itemId,
             text: item.text
           };
-          axios.post('https://localhost:44375/api/todoitem/changeText', dto)
+          axios.post('/api/todoitem/changeText', dto)
             .then((response) => { });
         },
         deleteItem: function(item) {
@@ -163,7 +163,7 @@
             listId: item.listId,
             itemId: item.itemId
           };
-          axios.post('https://localhost:44375/api/todoitem/delete', dto)
+          axios.post('/api/todoitem/delete', dto)
             .then((response) => { });
         },
         handleTodoListCreatedEvent: function(e) {
@@ -208,7 +208,7 @@
       }
     });
 
-    let hubUrl = 'https://localhost:44375/events';
+    let hubUrl = '/events';
     const hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl)
       .configureLogging(signalR.LogLevel.Information)

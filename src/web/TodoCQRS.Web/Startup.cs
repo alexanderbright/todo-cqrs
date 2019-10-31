@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DryIoc;
@@ -15,14 +16,25 @@ using Microsoft.Extensions.Logging;
 using TodoCQRS.Infrastructure.Framework;
 using TodoCQRS.Infrastructure.MsSql.Repositories;
 using TodoCQRS.Web.Application.Hubs;
+using TodoCQRS.Web.Configuration;
 
 namespace TodoCQRS.Web
 {
     public class Startup
     {
+        private WebConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            //Alternative way to deserialize settings
+            _configuration = configuration.Get<WebConfiguration>(o => o.BindNonPublicProperties = true);
+
+            var configurationFromFile = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.Development.json")
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -32,6 +44,9 @@ namespace TodoCQRS.Web
         {
             services.AddSignalR().AddNewtonsoftJsonProtocol();
             services.AddMvc(option => option.EnableEndpointRouting = false).AddNewtonsoftJson();
+            services.AddHealthChecks()
+                 .AddSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+            //TODO: also _configuration.ConnectionStrings.DefaultConnection can be used
 
             return new Container(rules => rules.WithoutThrowIfDependencyHasShorterReuseLifespan())
               // optional: support for MEF service discovery
@@ -43,7 +58,8 @@ namespace TodoCQRS.Web
                 throwIfUnresolved: type => type.Name.EndsWith("Controller"),
 
                 // optional: You may Log or Customize the infrastructure components registrations
-                registerDescriptor: (registrator, descriptor) =>
+                registerDescriptor: (
+                    registrator, descriptor) =>
                 {
 #if DEBUG
               if (descriptor.ServiceType == typeof(ILoggerFactory))
@@ -76,6 +92,7 @@ namespace TodoCQRS.Web
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapHub<EventHub>("/events");
+                endpoints.MapHealthChecks("/health");
             });
 
             app.UseStaticFiles();
