@@ -8,3 +8,4 @@ tools/*
 !tools/packages.config
 .vscode
 artifacts
+*.db

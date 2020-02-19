@@ -27,7 +27,7 @@ namespace TodoCQRS.Domain.Aggregates
 
     protected void RaiseEvent<T>(T e) where T: DomainEvent
     {
-      BusProvider.Bus.RaiseEvent<T>(e);
+      BusProvider.Bus.RaiseEvent<T>(e); //TODO: Should collect events
     }
 
     public void ChangeItemStatus(Guid itemId, bool isCompleted)
