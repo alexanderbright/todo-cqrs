@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@aspnet/signalr": "1.0.0",
-    "axios": "^0.18.1",
+    "axios": "^0.21.2",
     "bootstrap-vue": "^2.0.0-rc.12",
     "lodash": "^4.17.15",
     "vue": "^2.5.17"
